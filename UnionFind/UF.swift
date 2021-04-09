@@ -59,7 +59,7 @@ public struct UF {
     /// - Returns: `true` if `p` and `q` are in the same set; `false` otherwise
     public mutating func connected(_ p: Int, _ q: Int) -> Bool {
         // TODO
-        return parent[p] == parent[q]
+        return find(p) == find(q)
     }
     
     /// Merges the set containing element `p` with the set containing
@@ -69,16 +69,11 @@ public struct UF {
     ///   - q: the other element
     public mutating func union(_ p: Int, _ q: Int) {
         // TODO
-        let oldId = parent[p]
-        let newId = parent[q]
-        for i in 0..<parent.count {
-            if parent[i] == oldId {
-                parent[i] = newId
-            }
-        }
+        let oldId = find(p)
+        let newId = find(q)
+        parent[oldId] = newId
         if parent[p] != p {
             size[newId] += size[oldId]
-            size[oldId] = 0
         }
     }
     
